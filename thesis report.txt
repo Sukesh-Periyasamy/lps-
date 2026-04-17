@@ -994,6 +994,327 @@ SERS enables picogram-level detection (~8.75 pg), and when combined with ML (SVM
 This directly supports your project's approach of using DFT + Raman for sepsis biomarker identification.
 
 
+1. Title of the Work
+Fragment-Based Raman Modelling and Experimental Validation of Lipopolysaccharide (LPS) Using Computational Simulation and Spectral Fitting
+________________________________________
+2. Background and Problem Statement
+Lipopolysaccharide (LPS) is a major structural component of the outer membrane of Gram-negative bacteria and is strongly associated with endotoxin-mediated inflammation and sepsis. Detecting and understanding the Raman fingerprint of LPS is challenging because:
+	LPS is a large and structurally complex biomolecule 
+	It contains lipid, phosphate, and multiple sugar units 
+	Experimental Raman spectra are broad and overlapping 
+	Full quantum simulation of intact LPS is computationally difficult 
+Therefore, a fragment-based modelling strategy was used.
+________________________________________
+3. Objective
+The objectives of this work were:
+	Acquire experimental Raman spectra of LPS powder 
+	Optimize Raman acquisition parameters 
+	Simulate representative molecular fragments of LPS using Gaussian 
+	Build a composite model from simulated spectra 
+	Compare simulated and experimental spectra quantitatively 
+	Identify dominant molecular contributors in the Raman fingerprint 
+________________________________________
+4. Why Fragment-Based Modelling Was Used
+Instead of simulating the full LPS molecule, representative fragments were selected because full LPS contains many atoms and is computationally expensive.
+The selected fragments represent major structural regions of LPS:
+Fragment	Represents
+KDO	Core oligosaccharide marker
+Heptose	Core sugar
+D-Glucosamine	Lipid A backbone
+Myristic Acid	Fatty acid chains
+Phosphoric Acid	Phosphate functionality
+This reduces computational cost while preserving chemical meaning.
+________________________________________
+5. Computational Simulation Method
+Software Used
+	Gaussian 
+Level of Theory
+	DFT (Density Functional Theory) 
+	B3LYP / 6-31G(d) 
+Calculation Performed
+	Geometry optimization 
+	Frequency calculation 
+	Raman activity generation 
+Output Obtained
+For each fragment:
+	Raman peak positions 
+	Relative intensities 
+	Simulated molecular fingerprint spectrum 
+________________________________________
+6. Experimental Raman Study
+Sample Used
+	LPS powder 
+Purpose
+To obtain the real measured Raman fingerprint and compare it with simulation.
+________________________________________
+7. Why Parameter Optimization Was Necessary
+Initial Raman spectra can vary depending on:
+	laser power 
+	integration time 
+	number of accumulations 
+	signal-to-noise ratio 
+	risk of thermal damage 
+Therefore, multiple experimental settings were tested.
+________________________________________
+8. Experimental Settings Tried
+Different combinations of:
+	10 sec 
+	20 sec 
+	30 sec 
+	60 sec 
+with different laser powers and accumulations were tested.
+Examples:
+	10 sec, 20 power, 5 accumulations 
+	20 sec, 20 power, 5 accumulations 
+	30 sec settings 
+	60 sec, 20 power, 30 accumulations 
+________________________________________
+9. Why 60 sec / 20 power / 30 accumulations Was Selected
+This condition gave the best balance between:
+	stronger Raman signal 
+	improved peak visibility 
+	lower noise 
+	better reproducibility 
+	no severe damage observed 
+Longer integration collects more photons, while multiple accumulations improve averaging.
+Thus, this setting was selected as the final experimental dataset.
+Experimental file used:
+sec-60_power-20_i-30
+________________________________________
+10. Experimental Data Processing
+The raw experimental Raman data was processed before comparison.
+Steps Used
+	Excel file import 
+	Numeric cleaning 
+	Baseline correction (ALS) 
+	Savitzky-Golay smoothing 
+	Normalization 
+	Cropping to selected Raman range 
+________________________________________
+11. Why Baseline Correction Was Applied Only to Experimental Data
+Experimental spectra contain:
+	fluorescence background 
+	detector drift 
+	baseline slope 
+Simulated spectra do not contain these effects.
+Therefore:
+	Baseline correction applied only to experimental data 
+	Not applied to simulated spectra 
+________________________________________
+12. Raman Range Used for Final Analysis
+The final comparison window was:
+200–2000 cm⁻¹
+This region contains the most important fingerprint bands for:
+	sugars 
+	phosphate groups 
+	lipid vibrations 
+	molecular backbone modes 
+________________________________________
+13. How Simulated Spectra Were Processed
+Each fragment spectrum was:
+	Imported from Excel 
+	Frequency-scaled 
+	Normalized 
+	Interpolated to a common grid 
+No baseline correction was applied.
+________________________________________
+14. Why a Common Grid Was Needed
+Experimental and simulated spectra may have different x-axis points.
+To compare them fairly, all spectra were interpolated to the same grid:
+	200 to 2000 cm⁻¹ 
+	1 cm⁻¹ spacing 
+This allows direct point-by-point comparison.
+________________________________________
+15. First Comparison Method: Equal-Weight Composite
+All five fragment spectra were averaged equally:
+I_LPS=(I_1+I_2+I_3+I_4+I_5)/5
+
+Purpose:
+	unbiased baseline model 
+	simple first approximation 
+________________________________________
+16. Final Comparison Method: NNLS Optimization
+A better model was built using:
+Non-Negative Least Squares (NNLS)
+The experimental spectrum was fitted as:
+I_fit=w_1 I_1+w_2 I_2+w_3 I_3+w_4 I_4+w_5 I_5
+
+Where:
+	w_i≥0
+	weights normalized to sum = 1 
+This gives the best non-negative combination of fragments.
+________________________________________
+17. Why NNLS Was Used
+NNLS is suitable because:
+	negative chemical contributions are not physically meaningful 
+	gives optimal weights 
+	robust for mixture modelling 
+	commonly used in spectral decomposition 
+________________________________________
+18. Final Output Weights
+Fragment	Weight
+KDO	0.473
+Heptose	0.258
+D-Glucosamine	0.153
+Myristic Acid	0.117
+Phosphoric Acid	0.000
+________________________________________
+19. Interpretation of Weights
+Dominant Contributors
+KDO (47.3%)
+Strongest contributor. Indicates major influence of LPS core-region sugar vibrations.
+Heptose (25.8%)
+Second highest contribution. Supports importance of core oligosaccharide.
+Glucosamine (15.3%)
+Represents lipid A backbone contribution.
+Myristic Acid (11.7%)
+Represents lipid-related vibrations.
+Phosphoric Acid (0%)
+No unique contribution under current fitting conditions, likely due to overlap with other bands.
+________________________________________
+20. Model Quality Metrics
+Metric	Value
+RMSE	0.1850
+R²	0.1799
+Correlation	0.5078
+________________________________________
+21. What These Metrics Mean
+RMSE
+Average fitting error. Lower is better.
+R²
+How much spectral variance is explained by the model.
+Correlation
+Similarity of shape between fitted and experimental spectra.
+The optimized model performed better than the equal-weight model.
+________________________________________
+22. Key Scientific Findings
+	Fragment-based modelling can partially reconstruct the LPS Raman spectrum 
+	Core sugars dominate the observed fingerprint 
+	KDO is the strongest contributor 
+	Equal-weight averaging is weaker than optimized fitting 
+	Simulation + experiment can be combined for molecular interpretation 
+________________________________________
+23. Why the Fit Is Not Perfect
+Real LPS powder contains effects not fully captured by isolated fragments:
+	intermolecular interactions 
+	hydrogen bonding 
+	hydration 
+	conformational disorder 
+	packing effects 
+	peak shifts 
+	instrument noise 
+Therefore, moderate mismatch is expected.
+________________________________________
+24. Advantages of This Work
+	Combines experiment and simulation 
+	Uses chemically meaningful fragments 
+	Uses quantitative fitting instead of manual guessing 
+	Reproducible workflow 
+	Can be extended to other biomarkers 
+________________________________________
+25. Future Improvements
+	Add conformers 
+	Region-wise fitting 
+	Better phosphate model 
+	Advanced quantum methods 
+	Machine learning classification 
+	More experimental replicates 
+________________________________________
+26. Final Conclusion
+This work developed a complete workflow to study the Raman fingerprint of lipopolysaccharide using both experimental spectroscopy and computational modelling. Experimental Raman conditions were optimized, and the best dataset was selected using signal quality and reproducibility. Representative LPS fragments were simulated using DFT, then combined using NNLS fitting to reconstruct the measured spectrum.
+The results showed that KDO and heptose were the dominant contributors, indicating that carbohydrate-rich core structures strongly influence the observed LPS Raman fingerprint. This demonstrates that fragment-based computational Raman analysis is a practical and scientifically meaningful strategy for interpreting complex biomolecular spectra.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Slide 1: Background and Objective
+Title
+
+Raman-Based Identification of Lipopolysaccharide (LPS) Using Experimental and Computational Analysis
+
+Background
+Lipopolysaccharide (LPS) is a major component of Gram-negative bacterial outer membranes.
+It is strongly associated with inflammation, endotoxemia, and sepsis.
+Rapid identification of LPS-related spectral fingerprints can support diagnostic research.
+Raman spectroscopy provides label-free molecular fingerprinting.
+Problem Statement
+Full LPS is structurally large and complex.
+Direct spectral interpretation is difficult due to overlapping bands and multiple functional groups.
+Objective
+Acquire Raman spectra of LPS powder under optimized conditions.
+Build fragment-based computational models representing major LPS substructures.
+Compare simulated and experimental spectra.
+Identify dominant contributors and characteristic Raman bands.
+Slide 2: Methodology
+Experimental Workflow
+Sample: LPS powder
+Raman measurements performed under multiple acquisition settings:
+Different integration times
+Different laser powers
+Different accumulations
+Best experimental condition selected based on signal quality and reproducibility.
+Optimized Condition Chosen
+60 s integration
+20% laser power
+30 accumulations
+Computational Workflow
+
+Representative fragments selected:
+
+KDO
+Heptose
+D-Glucosamine
+Myristic Acid
+Phosphoric Acid
+Simulation Method
+Geometry optimization
+Frequency + Raman calculations
+DFT using B3LYP / 6-31G(d)
+Data Processing
+Interpolation to common Raman grid
+Normalization
+Composite model generation:
+Equal-weight model
+NNLS optimized model
+Slide 3: Results and Key Findings
+Experimental Optimization
+Multiple spectra were compared to determine best signal-to-noise ratio.
+60 s / 20% / 30 accumulations produced the most stable and interpretable spectrum.
+Composite Modeling Results
+
+NNLS Optimized Weights
+
+KDO: 47.3%
+Heptose: 25.8%
+Glucosamine: 15.3%
+Myristic Acid: 11.7%
+Phosphoric Acid: 0.0%
+Interpretation
+Sugar-region fragments contributed most strongly.
+Lipid contribution was present through myristic acid.
+Phosphoric acid showed minimal direct contribution in final fit.
+Key Raman Regions Matched
+~980 cm⁻¹ → carbohydrate / ring vibrations
+~1130 cm⁻¹ → lipid C–C vibrations
+~1330–1450 cm⁻¹ → CH deformation modes
+~1600 cm⁻¹ region → higher-energy structural vibrations
+Slide 4: Conclusion and Future Scope
+Conclusion
+Raman spectroscopy successfully captured reproducible spectral features from LPS powder.
+Experimental optimization was essential for obtaining high-quality spectra.
+Fragment-based DFT modeling is a practical alternative to full LPS simulation.
+NNLS fitting enabled quantitative comparison between simulation and experiment.
+KDO and Heptose were dominant contributors in the final spectral model.
+Scientific Significance
+Demonstrates a workflow combining experiment + simulation + mathematical fitting.
+Supports molecular interpretation of complex biomolecular Raman spectra.
+Future Scope
+Add more realistic LPS fragments (lipid A variants, linked sugar units).
+Include SERS substrate-based enhancement studies.
+Apply machine learning classification.
+Extend to real biological samples (serum/plasma).
+Develop rapid biosensing strategies for sepsis diagnostics.
 ================================================================================
                         LPS RAMAN/SERS PRESENTATION SLIDES
 ================================================================================
