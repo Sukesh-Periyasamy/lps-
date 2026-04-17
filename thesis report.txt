@@ -980,3 +980,234 @@ From ML feature importance:
 👉 These are:
 
 Most important for distinguishing LPS 
+
+What is LPS and why it matters
+LPS (Lipopolysaccharide) is a major outer membrane component of Gram-negative bacteria, consisting of Lipid A + core oligosaccharide + O-antigen. It's a critical biomarker for bacterial sepsis detection.
+Why fragment-based DFT modeling is used
+Full LPS is too large for complete quantum mechanical modeling, so representative fragments like Kdo (core sugar) are used — validated by literature as a reliable approach.
+Key Raman/SERS Spectral Fingerprint of LPS
+Peak (cm⁻¹)Assignment~989–1003Carbohydrate (Kdo/core sugars)~1131Lipid chain (Lipid A)~1330–1333CH deformation~1614C–O/C–C stretching~857Sugar/glycosidic (key discriminator)
+LPS vs PGN/LTA differentiation
+LPS shows a richer, multi-peak spectrum due to its combined lipid + carbohydrate composition, while PGN and LTA show fewer, simpler peaks. Differentiation relies on the overall spectral pattern, not a single peak.
+Detection capability
+SERS enables picogram-level detection (~8.75 pg), and when combined with ML (SVM, RamanNet), classification accuracy reaches >99% to 100%.
+This directly supports your project's approach of using DFT + Raman for sepsis biomarker identification.
+
+
+================================================================================
+                        LPS RAMAN/SERS PRESENTATION SLIDES
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 1 OF 4 — LPS: Structure, Significance & Modeling Strategy
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WHAT IS LPS?
+  - Major outer membrane component of Gram-negative bacteria
+  - Critical biomarker for bacterial sepsis detection
+  - Three structural components:
+      1. Lipid A         → toxic core
+      2. Core oligosaccharide
+      3. O-antigen
+
+WHY FRAGMENT-BASED DFT MODELING?
+  - Full LPS = tens of thousands of atoms → computationally infeasible for
+    full quantum mechanical (QM) modeling
+  - Representative fragment: Kdo (3-deoxy-D-manno-octulosonic acid) used
+    as core sugar model
+  - Validated using DFT: B3LYP / 6-31G(d,p) in Gaussian 03
+  - Solvation effects included via PCM + explicit water molecules
+  - DFT results agree with NMR and spectroscopic experiments
+
+KEY FUNCTIONAL GROUPS (dominate spectra):
+  - –COO⁻  carboxyl
+  - –PO₄⁻  phosphate
+  - –OH     hydroxyl
+  - CH₂/CH₃ lipid chains
+  → Responsible for metal binding, structural stability, and vibrational
+    signatures — the basis of the Raman fingerprint
+
+IMPORTANT NOTE:
+  The same DFT framework that produces IR spectra also yields Raman activity —
+  directly applicable to this work.
+
+REFERENCES:
+  - DFT Kdo study (Gaussian 03, B3LYP)
+  - "Lipopolysaccharide Membrane Building and Simulation"
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 2 OF 4 — Raman/SERS Spectral Fingerprint of LPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY CHARACTERISTIC PEAKS (detailed):
+  ┌─────────────────┬────────────────────────────────────────┬──────────────────┐
+  │ Peak (cm⁻¹)     │ Assignment                             │ Origin           │
+  ├─────────────────┼────────────────────────────────────────┼──────────────────┤
+  │ ~735            │ C–O–C glycosidic linkage               │ Sugar            │
+  │ ~794            │ C–O stretching                         │ Sugar            │
+  │ ~857            │ Glycosidic / sugar deformation         │ KEY DISCRIMINATOR│
+  │ ~894–917        │ Sugar ring vibrations                  │ Sugar            │
+  │ ~989–1003       │ C–O/C–C, carbohydrate (Kdo/core)       │ Core sugar       │
+  │ ~1131           │ C–C fatty acid, lipid chain            │ Lipid A          │
+  │ ~1330–1333      │ CH deformation, lipid chain            │ KEY DISCRIMINATOR│
+  │ ~1593–1614      │ C–O/C–C stretching, structural         │ KEY DISCRIMINATOR│
+  │ ~2900–2933      │ CH₂/CH₃, lipid chains of Lipid A       │ SERS marker      │
+  └─────────────────┴────────────────────────────────────────┴──────────────────┘
+
+BROAD SPECTRAL REGIONS (standard for bacterial analysis):
+  - 3000–2800 cm⁻¹  →  Fatty acids / lipids (CH₂, CH₃)
+  - 1700–1500 cm⁻¹  →  Proteins (Amide I, Amide II)
+  - 1200–900  cm⁻¹  →  Polysaccharides / cell wall (LPS region)
+  - 900–700   cm⁻¹  →  Fingerprint region
+
+3 MOST COMMON LPS FINGERPRINT PEAKS (Yang et al., 2022):
+  ★  1614 cm⁻¹
+  ★  1333 cm⁻¹
+  ★  1003 cm⁻¹
+
+CRITICAL CONCEPT:
+  Identification is based on the OVERALL SPECTRAL PATTERN, not any single
+  peak. Individual peaks may overlap with other biomolecules — multi-peak
+  pattern recognition is essential.
+
+REFERENCES:
+  - Wu et al., 2021 (Biosensors, MDPI) — main reference
+  - Yang et al., 2022 (RSC)
+  - "Spectroscopic Techniques in Bacterial Analysis" review (MDPI, 2026)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 3 OF 4 — LPS vs PGN vs LTA: Differentiation by Raman
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COMPARATIVE SPECTRAL PROFILE:
+
+  LPS (Gram-negative)          PGN (Gram-positive)          LTA (Gram-positive)
+  Lipid A + Core + O-antigen   Peptidoglycan layer          Lipoteichoic acid
+  ─────────────────────────    ─────────────────────────    ──────────────────────
+  - Many strong peaks          - Fewer peaks                - Fewer peaks
+  - Complex, feature-rich      - Simpler spectral profile   - Simpler spectral profile
+  - Lipid AND carbohydrate      - Mainly carbohydrate/        - Mainly carbohydrate/
+    signals combined              protein signals               protein signals
+  - Peaks: 857, 1003,          - Partial overlap at         - Partial overlap at
+    1333, 1614 cm⁻¹              ~1333 cm⁻¹                   ~1614 cm⁻¹
+
+OVERLAPPING PEAKS (challenge):
+  - ~1333 cm⁻¹  →  present in LPS, PGN, and LTA
+  - ~1614 cm⁻¹  →  common in all three biomolecules
+  → Single-peak identification is unreliable
+  → Must use multi-peak pattern recognition / chemometrics (PCA, ML)
+
+THESIS STATEMENT:
+  "LPS exhibits more complex and feature-rich Raman spectra compared to
+  Gram-positive components such as PGN and LTA, which show fewer
+  characteristic peaks. Although some overlapping bands exist (~1333 and
+  ~1614 cm⁻¹), LPS can be reliably differentiated based on the presence of
+  multiple characteristic peaks and their spectral patterns."
+
+SERS SAMPLE PREPARATION (Yang et al., 2022):
+  Source:
+    - LPS extracted via hot phenol–water method OR purchased (Sigma-Aldrich)
+    - Control samples: PGN, LTA, Chitin (non-bacterial control)
+    - 11 different LPS types tested (E. coli, Salmonella, Pseudomonas, etc.)
+
+  Purification steps:
+    1. Bacterial cells treated with phenol + water
+    2. LPS extracted into water phase
+    3. Dialysis to remove impurities
+    4. Freeze-dried for concentration
+    5. Ethanol washing to remove residual phospholipids
+
+  Sample prep for Raman:
+    - Concentration: 100 µg/mL in deionized water
+    - Volume: 2 µL deposited on silver nanorod (AgNR) SERS substrate
+    - Air-dried at room temperature (~20°C)
+    - Detection achieved at ~8.75 picogram level
+
+  Measurement parameters:
+    - Instrument: Confocal Raman microscope
+    - Laser: 785 nm excitation
+    - Laser power: ~9 mW
+    - Acquisition time: ~10 seconds
+    - Objective lens: 5× (low magnification)
+    - Multiple spectra collected per sample for reproducibility
+
+  Pre-processing:
+    - Baseline correction → noise removal → normalization
+
+REFERENCES:
+  - Yang et al., 2022 (RSC)
+  - Wu et al., 2021 (Biosensors, MDPI)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SLIDE 4 OF 4 — SERS Sensitivity, Machine Learning & Key Conclusions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SERS DETECTION CAPABILITY:
+  - Limit of Detection (LOD):      12 ng/mL
+  - Limit of Quantification (LOQ): 41 ng/mL
+  - Picogram-level detection:      ~8.75 pg per measurement (Yang et al.)
+  - Uses anti-lipid A antibody → targets most conserved and toxic region
+  - No labels or dyes required (label-free)
+  - Faster and simpler than ELISA and LAL test
+
+FREQUENCY-SHIFT SERS CONCEPT:
+  - Detection based on PEAK SHIFTS, not just peak presence or intensity
+  - Example: ~2933 cm⁻¹ → ~2922 cm⁻¹ upon LPS binding to antibody
+  - "Frequency-shift sensing" is more sensitive than traditional methods
+  - Peak at ~2900 cm⁻¹ → CH₂/CH₃ lipid chains (key SERS marker for LPS)
+  - Peak at ~1600–1660 cm⁻¹ → protein (antibody structural changes on binding)
+
+MACHINE LEARNING CLASSIFICATION ACCURACY:
+  ┌────────────────────────────────┬────────────┐
+  │ Model                          │ Accuracy   │
+  ├────────────────────────────────┼────────────┤
+  │ RamanNet (CNN deep learning)   │ 100%       │  ← best overall
+  │ SVM (Support Vector Machine)   │ ~99.98%    │  ← best classical
+  │ LDA (Linear Discriminant)      │ ~99.8%     │
+  │ Random Forest                  │ ~99.5%     │
+  │ KNN (K-Nearest Neighbors)      │ ~99.2%     │
+  │ PLS-DA                         │ ~98%       │
+  └────────────────────────────────┴────────────┘
+  → Even simple classical models achieve >99% accuracy
+  → RamanNet captures complex spectral features → perfect classification
+
+TOP 3 PEAKS FOR ML FEATURE IMPORTANCE (most discriminating):
+  ★  857  cm⁻¹  →  sugar/glycosidic deformation
+  ★  1333 cm⁻¹  →  CH deformation / lipid chain
+  ★  1593 cm⁻¹  →  functional group structural interaction
+
+DFT–RAMAN CORRELATION:
+  - Carbohydrate peaks (~1000 cm⁻¹) → Kdo / core sugars (DFT confirmed)
+  - Lipid peaks (~1300–1400 cm⁻¹)   → fatty acid chains (DFT confirmed)
+  - High-frequency modes (~1600 cm⁻¹) → structural interactions
+  → Fragment-based DFT (Kdo model) successfully explains observed peaks
+
+LIMITATIONS:
+  - Overlapping peaks between biomolecules (PGN, LTA)
+  - Variability in SERS signal due to substrate surface effects
+  - Complexity of real biological samples (mixed bacterial environment)
+  → Requires advanced data analysis + combined experimental + theoretical approach
+
+FINAL THESIS CONCLUSION:
+  "This study demonstrates that the integration of fragment-based DFT modeling
+  with Raman/SERS spectroscopy and machine learning provides a robust framework
+  for understanding and identifying LPS based on its molecular vibrational
+  fingerprint. LPS exhibits a distinct spectral pattern characterized by multiple
+  lipid and carbohydrate-associated peaks that, combined with SERS enhancement
+  and ML classification, enables highly sensitive and accurate detection suitable
+  for rapid bacterial sepsis diagnosis."
+
+REFERENCES:
+  - Wu et al., 2021 — Biosensors, MDPI (https://www.mdpi.com/2079-6374/11/7/234)
+  - Yang et al., 2022 — RSC (SERS + ML classification)
+  - DFT Kdo study — Gaussian 03, B3LYP/6-31G(d,p)
+  - Spectroscopic Techniques Review — MDPI 2026
+    (https://www.mdpi.com/2304-8158/15/4/644)
+  - SERS Biosensor paper — frequency-shift LPS detection
+
+================================================================================
+                                  END OF SLIDES
+================================================================================
